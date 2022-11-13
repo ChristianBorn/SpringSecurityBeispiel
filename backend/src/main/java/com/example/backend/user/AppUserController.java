@@ -1,7 +1,10 @@
 package com.example.backend.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -33,8 +36,12 @@ public class AppUserController {
     }
 
     @PostMapping
-    public String registration(@Valid @RequestBody NewAppUser newAppUser) {
+    @ResponseBody
+    public ResponseEntity<String> registration(@Valid @RequestBody NewAppUser newAppUser, Errors errors) {
+        if (errors.hasErrors()) {
+            return new ResponseEntity<>(new CustomApiErrorHandler(errors).getJsonString(), HttpStatus.BAD_REQUEST);
+        }
         service.save(newAppUser);
-        return "ok";
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

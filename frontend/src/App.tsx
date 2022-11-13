@@ -13,7 +13,7 @@ function App() {
         .then(response => response.data)
         .then(setUsername);
   }
-  useEffect(fetchUsername, [])
+  useEffect(fetchUsername, [username])
 
   if(username === undefined) {
     return <ClipLoader

@@ -7,6 +7,10 @@ type LoginPageProps = {
 export default function LoginPage(props: LoginPageProps) {
     const [username, setUsername] = useState<string>("")
     const [password, setPassword] = useState<string>("")
+    const [registrationErrorMessage, setRegistrationErrorMessage] = useState({
+        password: undefined,
+        username: undefined
+    })
 
 
     const login = () => {
@@ -15,22 +19,29 @@ export default function LoginPage(props: LoginPageProps) {
                 username,
                 password
             }
-        }
-        ).then(() => props.onLogin)
+        } //TODO: Fragen, wieso es mit () => props.onlogin keinen Reload gibt
+        ).then(props.onLogin)
     }
 
     const register = () => {
-        return null
-    }
+        axios.post("/api/app-users", {username, password})
+            .catch(response => {
+                setRegistrationErrorMessage(response.response.data)
+            })
+        }
+
 
     return (
         <>
         <label htmlFor={"username"}>Username</label>
-        <input id={"username"} type={"text"} onChange={event => setUsername(event.target.value)}/>
+        <input required id={"username"} type={"text"} onChange={event => setUsername(event.target.value)}/>
+            {registrationErrorMessage && <p>{registrationErrorMessage.username}</p>}
         <label htmlFor={"password"}>Password</label>
-        <input id={"password"} type={"password"} onChange={event => setPassword(event.target.value)}/>
+        <input required id={"password"} type={"password"} onChange={event => setPassword(event.target.value)}/>
+            {registrationErrorMessage && <p>{registrationErrorMessage.password}</p>}
             <button onClick={() => login()}>Login</button>
             <button onClick={() => register()}>Register</button>
+
         </>
     )
 }
