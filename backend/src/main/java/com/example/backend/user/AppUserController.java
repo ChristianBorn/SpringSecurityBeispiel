@@ -41,7 +41,11 @@ public class AppUserController {
         if (errors.hasErrors()) {
             return new ResponseEntity<>(new CustomApiErrorHandler(errors).getJsonString(), HttpStatus.BAD_REQUEST);
         }
-        service.save(newAppUser);
-        return new ResponseEntity<>("User was registered succesfully!", HttpStatus.OK);
+        try {
+            service.save(newAppUser);
+            return new ResponseEntity<>("User was registered succesfully!", HttpStatus.CREATED);
+        } catch (UserAlreadyExistsException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 }

@@ -9,7 +9,8 @@ export default function LoginPage(props: LoginPageProps) {
     const [password, setPassword] = useState<string>("")
     const [registrationErrorMessage, setRegistrationErrorMessage] = useState({
         password: undefined,
-        username: undefined
+        username: undefined,
+        userAlreadyExists: undefined
     })
     const [successMessage, setSuccessMessage] = useState<string>("")
 
@@ -38,14 +39,14 @@ export default function LoginPage(props: LoginPageProps) {
         <>
         <label htmlFor={"username"}>Username</label>
         <input required id={"username"} type={"text"} onChange={event => setUsername(event.target.value)}/>
-            {registrationErrorMessage && <p>{registrationErrorMessage.username}</p>}
+            {registrationErrorMessage.username && <p>{registrationErrorMessage.username}</p>}
         <label htmlFor={"password"}>Password</label>
         <input required id={"password"} type={"password"} onChange={event => setPassword(event.target.value)}/>
-            {registrationErrorMessage && <p>{registrationErrorMessage.password}</p>}
+            {registrationErrorMessage.password && <p>{registrationErrorMessage.password}</p>}
             <button onClick={() => login()}>Login</button>
             <button onClick={() => register()}>Register</button>
             {successMessage && <p>{successMessage}</p>}
-
-        </>
+            {registrationErrorMessage.userAlreadyExists && <p>{registrationErrorMessage.userAlreadyExists}</p>}
+            </>
     )
 }

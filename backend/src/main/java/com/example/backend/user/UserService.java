@@ -18,7 +18,9 @@ public class UserService {
 
     public void save(NewAppUser newAppUser) throws UserAlreadyExistsException {
         if (userRepository.findByUsername(newAppUser.username()) != null) {
-            throw new UserAlreadyExistsException("User with that username already exists");
+            throw new UserAlreadyExistsException("""
+                    {"userAlreadyExists": "User with that username already exists"}
+                    """);
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         AppUser appUser = new AppUser(UUID.randomUUID().toString(),
