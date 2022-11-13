@@ -11,6 +11,7 @@ export default function LoginPage(props: LoginPageProps) {
         password: undefined,
         username: undefined
     })
+    const [successMessage, setSuccessMessage] = useState<string>("")
 
 
     const login = () => {
@@ -25,6 +26,8 @@ export default function LoginPage(props: LoginPageProps) {
 
     const register = () => {
         axios.post("/api/app-users", {username, password})
+            .then(response => response.data)
+            .then(data =>setSuccessMessage(data))
             .catch(response => {
                 setRegistrationErrorMessage(response.response.data)
             })
@@ -41,6 +44,7 @@ export default function LoginPage(props: LoginPageProps) {
             {registrationErrorMessage && <p>{registrationErrorMessage.password}</p>}
             <button onClick={() => login()}>Login</button>
             <button onClick={() => register()}>Register</button>
+            {successMessage && <p>{successMessage}</p>}
 
         </>
     )

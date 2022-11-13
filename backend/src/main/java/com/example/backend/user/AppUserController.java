@@ -42,6 +42,6 @@ public class AppUserController {
             return new ResponseEntity<>(new CustomApiErrorHandler(errors).getJsonString(), HttpStatus.BAD_REQUEST);
         }
         service.save(newAppUser);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>("User was registered succesfully!", HttpStatus.OK);
     }
 }
