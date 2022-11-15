@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.cat;
 
 public record Cat(
         String id,

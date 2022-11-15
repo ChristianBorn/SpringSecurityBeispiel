@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.cat;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

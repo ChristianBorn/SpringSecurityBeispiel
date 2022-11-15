@@ -12,8 +12,10 @@ function SecuredPage(props: SecuredPageProps) {
     }
 
     return (<>
+
         <div>Welcome, {props.username}</div>
         <button onClick={logout}>Logout</button>
+
         </>
     );
 }

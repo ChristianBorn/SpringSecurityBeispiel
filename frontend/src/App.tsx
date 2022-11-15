@@ -4,28 +4,41 @@ import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 import LoginPage from "./LoginPage";
 import SecuredPage from "./SecuredPage";
+import {HashRouter, NavLink, Route, Routes} from "react-router-dom";
+import UserPage from "./UserPage";
 
 function App() {
-  const [username, setUsername] = useState<string>();
+  const [userDetails, setUserDetails] = useState({
+      username: "anonymousUser",
+      eMail: ""
+  });
 
   const fetchUsername = () => {
     axios.get("/api/app-users/me")
         .then(response => response.data)
-        .then(setUsername);
+        .then(setUserDetails);
   }
-  useEffect(fetchUsername, [username])
+  useEffect(fetchUsername, [])
 
-  if(username === undefined) {
+  if(userDetails === undefined) {
     return <ClipLoader
         size={150}
         aria-label="Loading Spinner"
         data-testid="loader"
     />
   }
-  if(username === "anonymousUser") {
+  if(userDetails.username === "anonymousUser") {
     return <LoginPage onLogin={fetchUsername}></LoginPage>
   }
-  return <SecuredPage onLogout={fetchUsername} username={username}></SecuredPage>
+  return (
+      <HashRouter basename="/">
+        <NavLink to={'/me'}>Link to me</NavLink>
+        <Routes>
+            <Route path={'/'} element={<SecuredPage onLogout={fetchUsername} username={userDetails.username}/>}></Route>
+          <Route path={'/me'} element={<UserPage username={userDetails.username} eMail={userDetails.eMail}/>}></Route>
+        </Routes>
+        </HashRouter>
+  )
 
 }
 

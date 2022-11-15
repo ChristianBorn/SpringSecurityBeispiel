@@ -1,4 +1,4 @@
-import {useState} from "react";
+import React, {useState} from "react";
 import axios from "axios";
 
 type LoginPageProps = {
@@ -21,7 +21,7 @@ export default function LoginPage(props: LoginPageProps) {
                 username,
                 password
             }
-        } //TODO: Fragen, wieso es mit () => props.onlogin keinen Reload gibt
+        }
         ).then(props.onLogin)
     }
 
@@ -47,6 +47,8 @@ export default function LoginPage(props: LoginPageProps) {
             <button onClick={() => register()}>Register</button>
             {successMessage && <p>{successMessage}</p>}
             {registrationErrorMessage.userAlreadyExists && <p>{registrationErrorMessage.userAlreadyExists}</p>}
+
             </>
+
     )
 }

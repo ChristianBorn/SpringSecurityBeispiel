@@ -18,8 +18,8 @@ public class AppUserController {
     private final UserService service;
 
     @GetMapping("/login")
-    public String login() {
-        return "ok";
+    public ResponseEntity<String> login() {
+        return new ResponseEntity<>("ok", HttpStatus.OK);
     }
 
     @GetMapping("/logout")
@@ -29,10 +29,11 @@ public class AppUserController {
 
     @GetMapping("/me")
     public String me() {
-        return SecurityContextHolder
+        String username = SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getName();
+        return service.getUserDetails(username);
     }
 
     @PostMapping

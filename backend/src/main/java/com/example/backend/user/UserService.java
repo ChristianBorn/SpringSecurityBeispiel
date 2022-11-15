@@ -26,7 +26,28 @@ public class UserService {
         AppUser appUser = new AppUser(UUID.randomUUID().toString(),
                 newAppUser.username(),
                 encoder.encode(newAppUser.password()),
-                "Basic");
+                "Basic",
+                newAppUser.eMail());
         userRepository.save(appUser);
+    }
+
+    public String getUserDetails(String username) {
+        if (!username.equals("anonymousUser")) {
+            String eMail;
+            try {
+                eMail = userRepository.findByUsername(username).eMail();
+            }
+            catch (NullPointerException e) {
+                eMail = "";
+            }
+
+            return """
+                    {"username":"<username>",
+                    "eMail":"<eMail>"}
+                    """.replace("<username>", username).replace("<eMail>", eMail);
+        }
+        return """
+                    {"username":"<username>"}
+                    """.replace("<username>", username);
     }
 }

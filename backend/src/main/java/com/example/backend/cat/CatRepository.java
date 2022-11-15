@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.cat;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
