@@ -21,6 +21,13 @@ public class SecurityConfig {
 
     private final UserService userService;
 
+    public static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Bean
+    public PasswordEncoder encoder() {
+        return passwordEncoder;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
@@ -40,10 +47,6 @@ public class SecurityConfig {
                 .and().build();
     }
 
-    @Bean
-    public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public UserDetailsManager userDetailsService() {

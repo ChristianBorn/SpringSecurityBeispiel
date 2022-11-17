@@ -1,5 +1,6 @@
 package com.example.backend.user;
 
+import com.example.backend.SecurityConfig;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class AppUserController {
             return new ResponseEntity<>(new CustomApiErrorHandler(errors).getJsonString(), HttpStatus.BAD_REQUEST);
         }
         try {
-            service.save(newAppUser);
+            service.save(newAppUser, SecurityConfig.passwordEncoder);
             return new ResponseEntity<>("User was registered succesfully!", HttpStatus.CREATED);
         } catch (UserAlreadyExistsException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
